@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}TKTI - Bo'sh ish o'rinlari{% endblock %}
+
+{% block meta %}
+  <meta
+    name="description"
+    content="Institutdagi o'qituvchilik va boshqa lavozimlariga onlayn ariza topshiring."
+  />
+{% endblock %}
+
+{% block content %}
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero__inner">
+      <div class="hero__content">
+        <p class="hero__eyebrow">Ishga qabul qilish portali</p>
+        <h1 id="hero-title">Ta’lim sohasida o‘z karyerangizni rivojlantiring</h1>
+        <p class="hero__lead">
+          Toshkent kimyo-texnologiya institutidagi bo‘sh ish o‘rinlarini topish hamda ularga ariza topshirish uchun yagona platforma.
+        </p>
+        <div class="hero__actions">
+          <a class="btn btn--primary" href="{% url 'vacancies:vacancy_list' %}">Bo'sh ish o'rinlarini ko'rish</a>
+          <a class="btn btn--outline" href="{% url 'vacancies:apply' %}">Arizani topshirish</a>
+        </div>
+      </div>
+      <div class="hero_image">
+        <img
+          src="{% static 'assets/karera.jpg' %}"
+          alt="Ta’lim va karyera"
+          width="640"
+          height="480"
+          loading="eager"
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt" aria-labelledby="offer-title">
+    <div class="container">
+      <h2 id="offer-title" class="section__title">Biz nimani taklif qilamiz</h2>
+      <p class="section__intro">
+        Institut sifatida nomzodlarga ochiq, qulay va xavfsiz ishga qabul jarayonini taqdim etamiz —
+        tanlovdan tortib ma’lumotlaringizni saqlashgacha.
+      </p>
+      <div class="features">
+        <article class="feature-card">
+          <div class="feature-card__icon" aria-hidden="true">✓</div>
+          <h3>Yaxshi ish joyi</h3>
+          <p>
+            Xodimlar uchun qulay va xavfsiz ish muhiti, zamonaviy ofis va zarur resurslar taqdim etiladi.
+          </p>
+        </article>
+        <article class="feature-card">
+          <div class="feature-card__icon" aria-hidden="true">✓</div>
+          <h3>Karyera o‘sishi</h3>
+          <p>
+            Mutaxassislik bo‘yicha rivojlanish imkoniyatlari, treninglar, seminarlar va malaka oshirish dasturlari mavjud.
+          </p>
+        </article>
+        <article class="feature-card">
+          <div class="feature-card__icon" aria-hidden="true">✓</div>
+          <h3>Imtiyozlar</h3>
+          <p>
+            Soliq va ijtimoiy imtiyozlar, sog‘liqni saqlash, dam olish va boshqa qo‘shimcha bonuslar taqdim etiladi.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="how-title">
+    <div class="container">
+      <h2 id="how-title" class="section__title">Qanday ishlaydi</h2>
+      <p class="section__intro">
+        Jarayon juda oddiy: o‘zingizga mos ish o‘rnini toping, onlayn arizani to‘ldiring va tasdiq xabarini oling. Ta’lim muassasasi arizalarni o‘z jadvaliga muvofiq ko‘rib chiqadi
+      </p>
+      <div class="features">
+        <article class="feature-card">
+          <div class="feature-card__icon" aria-hidden="true">1</div>
+          <h3>Qidiruv va filtrlash</h3>
+          <p>
+            Bo‘sh ish o‘rinlarini ish turiga qarab ko‘rib chiqing
+          </p>
+        </article>
+        <article class="feature-card">
+          <div class="feature-card__icon" aria-hidden="true">2</div>
+          <h3>Onlayn ariza bering</h3>
+          <p>
+            Bog‘lanish ma’lumotlaringiz, ta’limingiz, ish tajribangiz va motivatsiyangizni serverda xavfsiz saqlanadigan yagona, tartiblangan forma orqali kiriting.
+          </p>
+        </article>
+        <article class="feature-card">
+          <div class="feature-card__icon" aria-hidden="true">3</div>
+          <h3>Administrator ko‘rib chiqishi</h3>
+          <p>
+            “Arizalar ma’lumotlar bazasida saqlanadi va tegishli ruxsatlarga ega xodimlar tomonidan admin paneli orqali ko‘rib chiqilishi mumkin
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt" aria-labelledby="cta-title">
+    <div class="container">
+      <h2 id="cta-title" class="section__title">Ariza topshirishga tayyormisiz?</h2>
+      <p class="section__intro">
+        Mavjud e’lonlar tarkibiga professor-o‘qituvchilar va boshqa barcha ta’lim yo‘nalishidagi ish o‘rinlari kiradi. Har bir e’londa aniq muddatlar va ish turi ko‘rsatilgan.
+      </p>
+      <a class="btn btn--accent" href="{% url 'vacancies:vacancy_list' %}">Barcha bo'sh ish o'rinlarini ko'rish</a>
+    </div>
+  </section>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Ariza qabul qilindi — TKTI{% endblock %}
+
+{% block content %}
+  <div class="form-page success-panel" role="status" aria-live="polite">
+    <div class="success-panel__icon" aria-hidden="true">✓</div>
+    <h1>Arizangiz qabul qilindi</h1>
+    <p>
+      Rahmat. Sizning arizangiz ma’lumotlar yuborildi. Xodimlar uni ko‘rib chiqishadi va agar ma’qul kelsangiz siz bilan bog‘lanishadi.
+    </p>
+    <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center">
+      <a class="btn btn--primary" href="{% url 'vacancies:vacancy_list' %}">Bo‘sh ish o‘rinlariga qaytish</a>
+      <a class="btn btn--outline" href="{% url 'vacancies:apply' %}">Yangi ariza</a>
+    </div>
+  </div>
+{% endblock %}

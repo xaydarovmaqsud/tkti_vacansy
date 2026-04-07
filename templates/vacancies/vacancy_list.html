@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}Bo'sh ish o'rinlari - TKTI{% endblock %}
+
+{% block meta %}
+  <meta name="description" content="Open positions at universities, colleges, and vocational centers." />
+{% endblock %}
+
+{% block content %}
+  <section class="section" style="padding-top: 2rem" aria-labelledby="list-title">
+    <div class="container">
+      <h1 id="list-title" class="section__title">Institutdagi mavjud bo‘sh ish o‘rinlari</h1>
+      <p class="section__intro">
+        Ish turiga ko‘ra filtrlash yoki ish nomi bo‘yicha qidirish mumkin. Har bir ish ariza formasiga bog‘langan bo‘lib, tanlangan ish o‘rnini oldindan belgilaydi.
+      </p>
+
+      <form class="toolbar" method="get" action="{% url 'vacancies:vacancy_list' %}">
+        <!-- <div class="field">
+          <label for="filter-type">Muassasa turi</label>
+          <select id="filter-type" name="type">
+            <option value="" {% if not filter_type %}selected{% endif %}>Barcha turlar</option>
+            <option value="higher" {% if filter_type == "higher" %}selected{% endif %}>Oliy ta’lim</option>
+            <option value="professional" {% if filter_type == "professional" %}selected{% endif %}>
+              Kasb-hunar / professional
+            </option>
+          </select>
+        </div> -->
+        <div class="field field--grow">
+          <label for="filter-search">Qidiruv  </label>
+          <input
+            type="search"
+            id="filter-search"
+            name="q"
+            value="{{ filter_q }}"
+            placeholder="Ish turi, ta'lim muassasasi, bo'limi..."
+            autocomplete="off"
+          />
+        </div>
+        <div class="field">
+          <label class="visually-hidden" for="filter-submit">Qidirish</label>
+          <button type="submit" id="filter-submit" class="btn btn--primary">Qidirish</button>
+        </div>
+      </form>
+
+      <div class="vacancy-grid" role="feed">
+        {% for v in vacancies %}
+          <article class="vacancy-card">
+            <div class="vacancy-card__meta">
+              {% if v.institution_type == "higher" %}
+                <span class="badge badge--he">Oliy ta’lim</span>
+              {% else %}
+                <span class="badge badge--prof">Kasb-hunar ta’limi</span>
+              {% endif %}
+              <span>{{ v.employment }} · {{ v.location }}</span>
+            </div>
+            <h2>{{ v.title }}</h2>
+            <p class="vacancy-card__institution">{{ v.institution }}</p>
+            <p class="vacancy-card__details">
+              {{ v.department }} · Ariza topshirish muddati: {{ v.deadline|date:"F j, Y" }}
+            </p>
+            <div class="vacancy-card__actions">
+              <a class="btn btn--primary" href="{% url 'vacancies:apply' %}?vacancy={{ v.pk }}">Onlayn ariza topshirish</a>
+              <a class="btn btn--outline" href="{% url 'vacancies:apply' %}?vacancy={{ v.pk }}#details">Ish tafsilotlarini ko‘rish</a>
+            </div>
+          </article>
+        {% empty %}
+          <p class="empty-state" role="status">
+            Sizning qidiruvingizga mos bo‘lgan bo‘sh ish o‘rinlari topilmadi. Qidiruv so‘zlarini o‘zgartirib ko‘ring.
+          </p>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+{% endblock %}

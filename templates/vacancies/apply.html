@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Ariza topshirish - TKTI{% endblock %}
+
+{% block meta %}
+  <meta name="description" content="Online application for education sector vacancies." />
+{% endblock %}
+
+{% block content %}
+  <div class="form-page">
+    <div class="container">
+      <h1 class="section__title" style="margin-bottom: 0.25rem">Onlayn ariza</h1>
+      <p class="section__intro" style="margin-bottom: 1.75rem">
+        Barcha maydonlarni to‘ldiring. Sizning arizangiz serverda tekshiriladi va ma’lumotlar bazasida saqlanadi.
+      </p>
+
+      <div class="form-layout">
+        <form
+          id="application-form"
+          class="form-card"
+          method="post"
+          action="{% url 'vacancies:apply' %}"
+          enctype="multipart/form-data"
+        >
+          {% csrf_token %}
+          {% if form.non_field_errors %}
+            <ul class="errorlist nonfield">
+              {% for err in form.non_field_errors %}
+                <li>{{ err }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+
+          <div class="field field--full">
+            <label for="{{ form.vacancy.id_for_label }}">
+              Bo‘sh ish o‘rni <span class="visually-hidden">(required)</span>
+            </label>
+            {{ form.vacancy }}
+            {{ form.vacancy.errors }}
+          </div>
+
+          <h2>Shaxsiy ma’lumotlar</h2>
+          <div class="form-row">
+            <div class="field">
+              <label for="{{ form.full_name.id_for_label }}">To‘liq ismingiz</label>
+              {{ form.full_name }}
+              {{ form.full_name.errors }}
+            </div>
+            <div class="field">
+              <label for="{{ form.email.id_for_label }}">Email</label>
+              {{ form.email }}
+              {{ form.email.errors }}
+            </div>
+          </div>
+          <div class="field field--full">
+            <label for="{{ form.phone.id_for_label }}">Telefon raqamingiz</label>
+            {{ form.phone }}
+            {{ form.phone.errors }}
+          </div>
+
+          <h2>Malaka va tajriba</h2>
+          <div class="field field--full">
+            <label for="{{ form.education.id_for_label }}">Ta’lim darajasi</label>
+            {{ form.education }}
+            {{ form.education.errors }}
+          </div>
+          <div class="field field--full">
+            <label for="{{ form.experience.id_for_label }}">Tegishli ish tajribasi</label>
+            {{ form.experience }}
+            <p class="hint">Kamida 20+ belgidan iborat bo‘lishi kerak.</p>  
+            {{ form.experience.errors }}
+          </div>
+          <div class="field field--full">
+            <label for="{{ form.cover_letter.id_for_label }}">Motivatsion xat</label>
+            {{ form.cover_letter }}
+            <p class="hint">Kamida 50 ta belgi bo‘lishi kerak.</p>
+            {{ form.cover_letter.errors }}
+          </div>
+
+          <h2>Resume yuklash</h2>
+          <div class="field field--full">
+            <label for="{{ form.cv.id_for_label }}">{{ form.cv.label }}</label>
+            {{ form.cv }}
+            <p class="hint">PDF, DOC yoki DOCX. Maksimum 5 MB.</p>
+            {{ form.cv.errors }}
+          </div>
+
+          <h2>Rozilik</h2>
+          <div class="field field--full">
+            {{ form.consent.errors }}
+            <label
+              for="{{ form.consent.id_for_label }}"
+              style="display: flex; gap: 0.6rem; align-items: flex-start; font-weight: 400"
+            >
+              {{ form.consent.as_widget }}
+              <span>{{ form.consent.label }}</span>
+            </label>
+          </div>
+
+          <button
+            id="submit-application-btn"
+            type="submit"
+            class="btn btn--primary btn--block"
+            style="margin-top: 0.5rem"
+            data-default-text="Arizani yuborish"
+          >
+            Arizani yuborish
+          </button>
+        </form>
+
+        <aside class="sidebar-card" aria-labelledby="summary-heading">
+          <h3 id="summary-heading">Tanlangan ish o‘rni</h3>
+          <div id="sidebar-summary">
+            <p>Tafsilotlarni ko‘rish uchun ish o‘rnini tanlang.</p>
+          </div>
+        </aside>
+      </div>
+
+      <div id="role-details" class="form-card" style="margin-top: 1.5rem"></div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block extra_js %}
+  {{ vacancies_for_js|json_script:"vacancies-data" }}
+  <script src="{% static 'js/apply-page.js' %}"></script>
+  <script>
+    (function () {
+      var form = document.getElementById("application-form");
+      var submitBtn = document.getElementById("submit-application-btn");
+      if (!form || !submitBtn) return;
+
+      form.addEventListener("submit", function () {
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Yuborilmoqda...";
+      });
+    })();
+  </script>
+{% endblock %}
