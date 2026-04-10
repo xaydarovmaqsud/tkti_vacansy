@@ -82,6 +82,11 @@ img {
   color: var(--color-primary);
   text-decoration: none;
 }
+@media screen and (max-width: 600px) {
+  .site-header__inner span{
+    display: none;
+  }
+}
 .site-header__inner span:hover {
   text-decoration: none;
   color: var(--color-primary-hover);
@@ -143,6 +148,67 @@ img {
 .nav a.is-active {
   color: var(--color-primary);
   background: rgba(13, 79, 108, 0.08);
+}
+
+.nav__logout {
+  margin: 0;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+}
+
+.nav__logout-btn {
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 500;
+  padding: 0.5rem 0.85rem;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  color: var(--color-text);
+  cursor: pointer;
+}
+.nav__logout-btn svg {
+  vertical-align: middle;
+}
+
+.nav__logout-btn:hover {
+  background: var(--color-bg);
+}
+
+.site-messages {
+  padding: 0.75rem 1.25rem 0;
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+.site-messages__item {
+  margin: 0 0 0.5rem;
+  padding: 0.65rem 1rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+}
+
+.site-messages__item--success {
+  background: rgba(29, 111, 74, 0.12);
+  color: var(--color-success);
+}
+
+.site-messages__item--warning {
+  background: rgba(196, 92, 38, 0.12);
+  color: var(--color-accent);
+}
+
+.site-messages__item--error,
+.site-messages__item--danger {
+  background: rgba(185, 28, 28, 0.1);
+  color: #b91c1c;
+}
+
+.site-messages__item--info,
+.site-messages__item--debug {
+  background: rgba(13, 79, 108, 0.1);
+  color: var(--color-primary);
 }
 
 /* Buttons */
@@ -506,6 +572,78 @@ main {
   color: var(--color-accent);
 }
 
+.badge--applied {
+  background: rgba(13, 79, 108, 0.12);
+  color: var(--color-primary);
+  align-self: center;
+}
+
+.badge--status-submitted {
+  background: #e8f2f6;
+  color: var(--color-primary);
+}
+
+.badge--status-review {
+  background: #eef2ff;
+  color: #3730a3;
+}
+
+.badge--status-shortlisted {
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
+}
+
+.badge--status-accepted {
+  background: rgba(29, 111, 74, 0.15);
+  color: var(--color-success);
+}
+
+.badge--status-rejected {
+  background: rgba(185, 28, 28, 0.1);
+  color: #b91c1c;
+}
+
+.applications-table-wrap {
+  overflow-x: auto;
+  margin-top: 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.applications-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.applications-table th,
+.applications-table td {
+  padding: 0.85rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: top;
+}
+
+.applications-table th {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+  background: var(--color-bg);
+}
+
+.applications-table tr:last-child td {
+  border-bottom: none;
+}
+
+.applications-table__meta {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  margin-top: 0.25rem;
+}
+
 .vacancy-card h2 {
   font-size: 1.2rem;
   margin: 0.25rem 0 0;
@@ -555,9 +693,9 @@ main {
   align-items: start;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 600px) {
   .form-layout {
-    grid-template-columns: 1fr;
+    grid-template-columns: 100%;
   }
 }
 

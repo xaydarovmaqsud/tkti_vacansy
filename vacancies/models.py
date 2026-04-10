@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.core.validators import FileExtensionValidator
 from django.db import models
 
@@ -5,6 +6,14 @@ from django.db import models
 class InstitutionType(models.TextChoices):
     HIGHER = "higher", "Oliy ta'lim"
     PROFESSIONAL = "professional", "Kasbiy ta'lim"
+
+
+class ApplicationStatus(models.TextChoices):
+    SUBMITTED = "submitted", "Yuborilgan"
+    UNDER_REVIEW = "under_review", "Ko‘rib chiqilmoqda"
+    SHORTLISTED = "shortlisted", "Tanlov ro‘yxatida"
+    REJECTED = "rejected", "Rad etilgan"
+    ACCEPTED = "accepted", "Qabul qilingan"
 
 
 class EducationLevel(models.TextChoices):
@@ -41,10 +50,25 @@ class Vacancy(models.Model):
 
 
 class Application(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="vacancy_applications",
+        null=True,
+        blank=True,
+        verbose_name="Foydalanuvchi",
+    )
     vacancy = models.ForeignKey(
         Vacancy,
         on_delete=models.CASCADE,
         related_name="applications",
+    )
+    status = models.CharField(
+        "Holat",
+        max_length=20,
+        choices=ApplicationStatus.choices,
+        default=ApplicationStatus.SUBMITTED,
+        db_index=True,
     )
     full_name = models.CharField("To‘liq ism", max_length=255)
     email = models.EmailField()
@@ -68,6 +92,13 @@ class Application(models.Model):
         ordering = ["-submitted_at"]
         verbose_name = "Arizalar"
         verbose_name_plural = "Arizalar"
+        constraints = [
+            models.UniqueConstraint(
+                fields=["user", "vacancy"],
+                condition=models.Q(user__isnull=False),
+                name="uniq_application_user_per_vacancy",
+            ),
+        ]
 
     def __str__(self) -> str:
         return f"{self.full_name} → {self.vacancy.title}"

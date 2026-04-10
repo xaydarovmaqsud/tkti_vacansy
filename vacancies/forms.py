@@ -66,6 +66,7 @@ class ApplicationForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         vacancy_queryset = kwargs.pop("vacancy_queryset", None)
+        self.applicant_user = kwargs.pop("applicant_user", None)
         super().__init__(*args, **kwargs)
         if vacancy_queryset is not None:
             self.fields["vacancy"].queryset = vacancy_queryset
@@ -73,6 +74,18 @@ class ApplicationForm(forms.ModelForm):
         self.fields["education"].choices = [("", "— Tanlang —")] + list(EducationLevel.choices)
         self.fields["cv"].label = "CV (rezyume) fayl"
         self.fields["cv"].required = True
+
+    def clean_vacancy(self):
+        vacancy = self.cleaned_data.get("vacancy")
+        if vacancy is None:
+            return vacancy
+        user = self.applicant_user
+        if user and user.is_authenticated:
+            if Application.objects.filter(user=user, vacancy=vacancy).exists():
+                raise ValidationError(
+                    "Siz ushbu ish o‘rniga allaqachon ariza yuborgansiz. Har bir ish o‘rniga faqat bir marta ariza berish mumkin."
+                )
+        return vacancy
 
     def clean_full_name(self):
         name = self.cleaned_data["full_name"].strip()

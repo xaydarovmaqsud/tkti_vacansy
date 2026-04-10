@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Kirish - TKTI{% endblock %}
+
+{% block content %}
+  <section class="section form-page" style="padding-top: 2rem" aria-labelledby="login-title">
+    <div class="container" style="max-width: 28rem">
+      <h1 id="login-title" class="section__title">Hisobga kirish</h1>
+      <p class="section__intro" style="margin-bottom: 1.25rem">
+        Ariza topshirish uchun tizimga kiring. <br>Hisobingiz yo‘qmi?
+        <a href="{% url 'vacancies:register' %}" style="text-decoration: underline;">Ro‘yxatdan o‘ting</a>.
+      </p>
+
+      <form class="form-card" method="post" action="{% url 'vacancies:login' %}">
+        {% csrf_token %}
+        {% if form.non_field_errors %}
+          <ul class="errorlist nonfield">
+            {% for err in form.non_field_errors %}
+              <li>{{ err }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+        {% if next %}
+          <input type="hidden" name="next" value="{{ next }}" />
+        {% endif %}
+
+        <div class="field field--full">
+          <label for="{{ form.username.id_for_label }}">Foydalanuvchi nomi (username)</label>
+          {{ form.username }}
+          {{ form.username.errors }}
+        </div>
+        <div class="field field--full">
+          <label for="{{ form.password.id_for_label }}">Parol (kamida 8 ta belgi)</label>
+          {{ form.password }}
+          {{ form.password.errors }}
+        </div>
+
+        <button type="submit" class="btn btn--primary btn--block">Kirish</button>
+        <br><br>
+        <a href="https://t.me/atm_tkti" target="_blank">
+          Parolingizni unutdingizmi?
+        </a>
+      </form>
+    </div>
+  </section>
+{% endblock %}

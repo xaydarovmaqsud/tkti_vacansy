@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}Profil — Mening arizalarim - TKTI{% endblock %}
+
+{% block content %}
+  <section class="section" style="padding-top: 2rem" aria-labelledby="profile-title">
+    <div class="container">
+      <h1 id="profile-title" class="section__title">Profil</h1>
+      <p class="section__intro">
+        Sizning foydalanuvchi nomingiz: <strong>{{ user.username }}</strong>. <br> 
+        Har bir ish o‘rniga faqat bitta ariza yuborishingiz mumkin, holatni bu yerda kuzatishingiz mumkin.
+      </p>
+
+      <h2 class="section__title" style="font-size: 1.35rem; margin-top: 2rem">Mening arizalarim</h2>
+
+      {% if applications %}
+        <div class="applications-table-wrap">
+          <table class="applications-table">
+            <thead>
+              <tr>
+                <th scope="col">Ish o‘rni</th>
+                <th scope="col">Yuborilgan sana</th>
+                <th scope="col">Holat</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for app in applications %}
+                <tr>
+                  <td>
+                    <strong>{{ app.vacancy.title }}</strong>
+                    <div class="applications-table__meta">{{ app.vacancy.institution }}</div>
+                  </td>
+                  <td>{{ app.submitted_at|date:"d.m.Y H:i" }}</td>
+                  <td>
+                    {% if app.status == "submitted" %}
+                      <span class="badge badge--status-submitted">{{ app.get_status_display }}</span>
+                    {% elif app.status == "under_review" %}
+                      <span class="badge badge--status-review">{{ app.get_status_display }}</span>
+                    {% elif app.status == "shortlisted" %}
+                      <span class="badge badge--status-shortlisted">{{ app.get_status_display }}</span>
+                    {% elif app.status == "accepted" %}
+                      <span class="badge badge--status-accepted">{{ app.get_status_display }}</span>
+                    {% elif app.status == "rejected" %}
+                      <span class="badge badge--status-rejected">{{ app.get_status_display }}</span>
+                    {% else %}
+                      <span class="badge">{{ app.get_status_display }}</span>
+                    {% endif %}
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <p class="section__intro" style="margin-top: 1.25rem; margin-bottom: 0">
+          <a class="btn btn--primary" href="{% url 'vacancies:apply' %}">Yangi ariza topshirish</a>
+        </p>
+      {% else %}
+        <p class="empty-state" role="status">
+          Hozircha yuborilgan arizalar yo‘q.
+          <a href="{% url 'vacancies:vacancy_list' %}">Bo‘sh ish o‘rinlarini</a> ko‘rib chiqing.
+        </p>
+        <p style="margin-top: 1rem">
+          <a class="btn btn--primary" href="{% url 'vacancies:apply' %}">Ariza topshirish</a>
+        </p>
+      {% endif %}
+    </div>
+  </section>
+{% endblock %}

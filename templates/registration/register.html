@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Ro‘yxatdan o‘tish - TKTI{% endblock %}
+
+{% block content %}
+  <section class="section form-page" style="padding-top: 2rem" aria-labelledby="reg-title">
+    <div class="container" style="max-width: 28rem">
+      <h1 id="reg-title" class="section__title">Ro‘yxatdan o‘tish</h1>
+      <p class="section__intro" style="margin-bottom: 1.25rem">
+        Allaqachon hisobingiz bormi? <a href="{% url 'vacancies:login' %}">Kirish</a>.
+      </p>
+
+      <form class="form-card" method="post" action="{% url 'vacancies:register' %}">
+        {% csrf_token %}
+        {% if form.non_field_errors %}
+          <ul class="errorlist nonfield">
+            {% for err in form.non_field_errors %}
+              <li>{{ err }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+
+        <div class="field field--full">
+          <label for="{{ form.username.id_for_label }}">Foydalanuvchi nomi</label>
+          {{ form.username }}
+          {% if form.username.help_text %}<p class="hint">{{ form.username.help_text }}</p>{% endif %}
+          {{ form.username.errors }}
+        </div>
+        <div class="field field--full">
+          <label for="{{ form.password1.id_for_label }}">Parol</label>
+          {{ form.password1 }}
+          {{ form.password1.errors }}
+        </div>
+        <div class="field field--full">
+          <label for="{{ form.password2.id_for_label }}">Parolni tasdiqlang</label>
+          {{ form.password2 }}
+          {{ form.password2.errors }}
+        </div>
+
+        <button type="submit" class="btn btn--primary btn--block">Hisob yaratish</button>
+      </form>
+    </div>
+  </section>
+{% endblock %}

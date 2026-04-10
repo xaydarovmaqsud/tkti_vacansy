@@ -13,8 +13,19 @@
       <h1 class="section__title" style="margin-bottom: 0.25rem">Onlayn ariza</h1>
       <p class="section__intro" style="margin-bottom: 1.75rem">
         Barcha maydonlarni to‘ldiring. Sizning arizangiz serverda tekshiriladi va ma’lumotlar bazasida saqlanadi.
+        Allaqachon ariza yuborgan ish o‘rinlari ro‘yxatdan chiqariladi — har bir lavozim uchun faqat bitta ariza.
       </p>
 
+      {% if no_open_vacancies %}
+        <p class="empty-state" role="status">
+          Hozircha ariza topshirish mumkin bo‘lgan yangi ish o‘rinlari yo‘q: siz barcha ochiq e’lonlarga ariza
+          yuborgansiz yoki faol vakansiyalar mavjud emas.
+        </p>
+        <p style="margin-top: 1rem">
+          <a class="btn btn--primary" href="{% url 'vacancies:profile' %}">Mening arizalarim</a>
+          <a class="btn btn--outline" href="{% url 'vacancies:vacancy_list' %}" style="margin-left: 0.5rem">Bo‘sh ish o‘rinlari</a>
+        </p>
+      {% else %}
       <div class="form-layout">
         <form
           id="application-form"
@@ -118,6 +129,7 @@
       </div>
 
       <div id="role-details" class="form-card" style="margin-top: 1.5rem"></div>
+      {% endif %}
     </div>
   </div>
 {% endblock %}
@@ -125,6 +137,7 @@
 {% block extra_js %}
   {{ vacancies_for_js|json_script:"vacancies-data" }}
   <script src="{% static 'js/apply-page.js' %}"></script>
+  {% if not no_open_vacancies %}
   <script>
     (function () {
       var form = document.getElementById("application-form");
@@ -137,4 +150,5 @@
       });
     })();
   </script>
+  {% endif %}
 {% endblock %}

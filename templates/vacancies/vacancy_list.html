@@ -54,12 +54,27 @@
               <span>{{ v.employment }} · {{ v.location }}</span>
             </div>
             <h2>{{ v.title }}</h2>
-            <p class="vacancy-card__institution">{{ v.institution }}</p>
+            <p class="vacancy-card__institution" style="color: black;">{{ v.institution }}</p>
             <p class="vacancy-card__details">
-              {{ v.department }} · Ariza topshirish muddati: {{ v.deadline|date:"F j, Y" }}
+              <span style="color: black;">Bo'lim:</span> {{ v.department }}
+            </p>
+            <p class="vacancy-card__details">
+              <span style="color: black;">Ariza topshirish muddati:</span> {{ v.deadline|date:"F j, Y" }}
+            </p>
+            <p class="vacancy-card__details">
+              {% if v.applications_count > 0 %}
+                <span style="color: black;">Topshirilgan arizalar:</span> {{ v.applications_count }} ta
+              {% else %}
+                <span style="color: green;">Birinchi bo‘lib ariza topshiring!</span>
+              {% endif %}
             </p>
             <div class="vacancy-card__actions">
-              <a class="btn btn--primary" href="{% url 'vacancies:apply' %}?vacancy={{ v.pk }}">Onlayn ariza topshirish</a>
+              {% if user.is_authenticated and v.pk in applied_vacancy_ids %}
+                <span class="badge badge--applied">Ariza yuborilgan</span>
+                <a class="btn btn--outline" href="{% url 'vacancies:profile' %}">Mening arizalarim</a>
+              {% else %}
+                <a class="btn btn--primary" href="{% url 'vacancies:apply' %}?vacancy={{ v.pk }}">Onlayn ariza topshirish</a>
+              {% endif %}
               <a class="btn btn--outline" href="{% url 'vacancies:apply' %}?vacancy={{ v.pk }}#details">Ish tafsilotlarini ko‘rish</a>
             </div>
           </article>
